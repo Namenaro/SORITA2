@@ -28,16 +28,16 @@ def get_omni():
 
 def get_omni_pics():
     ominset = get_omni()
-    class_num = 45#15
+    class_num =32 #F=45, две закорюки и точка = 56, мсамый простой значок = 9, 29 и 32
     res = []
     for i in range(len(ominset)):
         if class_num == ominset[i][1]:
             res.append(ominset[i][0])
     return res
 
-def get_pic():
+def get_pic(n=0):
     pics = get_omni_pics()
-    pic = np.array(pics[0])
+    pic = np.array(pics[n])
     return pic
 
 def sense(point, picture): #hist on omni pic ={255: 0.9264399092970521, 0: 0.07356009070294785}
@@ -90,3 +90,11 @@ def get_points_facts_dict(pic):
         points_facts_dict[point]= fact
     return points_facts_dict
 
+def find_start_point(picture):
+    Xmax = picture.shape[1]
+    Ymax = picture.shape[0]
+    while True:
+        point = Point(random.randrange(Xmax), random.randrange(Ymax))
+        if sense(point, picture):
+            print ("start_point = "+ str(point))
+            return point
