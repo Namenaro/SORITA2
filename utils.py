@@ -22,6 +22,14 @@ class Point:
     def __hash__(self):
         return hash(str(self))
 
+def get_backward_dir(dir):
+    bdir = Point(0,0)
+    if dir.x!=0:
+        bdir.x=-dir.x
+    if dir.y!=0:
+        bdir.y=-dir.y
+    return bdir
+
 def get_omni():
     ominset = datasets.Omniglot(root='./data_om', download=True, transform=None)
     return ominset
@@ -46,6 +54,15 @@ def sense(point, picture): #hist on omni pic ={255: 0.9264399092970521, 0: 0.073
     if point.x >= 0 and point.y >= 0 and point.x < xlen and point.y < ylen:
         val = picture[point.y, point.x]
         if val == 0:
+            return True
+    return False
+
+def sense_1(point, picture):
+    xlen=picture.shape[1]
+    ylen=picture.shape[0]
+    if point.x >= 0 and point.y >= 0 and point.x < xlen and point.y < ylen:
+        val = picture[point.y, point.x]
+        if val >0:
             return True
     return False
 

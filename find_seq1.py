@@ -10,13 +10,7 @@ def select_direction():
     dir = choice([left, right, top, down])
     return dir
 
-def get_backward_dir(dir):
-    bdir = Point(0,0)
-    if dir.x!=0:
-        bdir.x=-dir.x
-    if dir.y!=0:
-        bdir.y=-dir.y
-    return bdir
+
 
 
 def find_1_seq(start_point, pic):
@@ -47,7 +41,7 @@ def find_1_seq(start_point, pic):
             break
     return num_steps, dir_backward
 
-class RunResult:
+class RunResult1:
     def __init__(self, name, point):
         self.name = name
         self.point = point
@@ -59,6 +53,7 @@ class Seq1:
         self.name = name
         self.num_steps = num_steps
         self.direct = direct
+        self.trivial_p = (0.07**(num_steps))*(1-0.07)
 
     def _precheck(self, start_point, pic):
         if sense(start_point, pic) is False:
@@ -72,7 +67,7 @@ class Seq1:
     def run(self, start_point, pic):
         if self._precheck(start_point, pic) is False:
             return None
-        res = RunResult(self.name, start_point)
+        res = RunResult1(self.name, start_point)
 
         nextp = deepcopy(start_point)
         for _ in range(self.num_steps-1):
@@ -85,8 +80,11 @@ class Seq1:
                 break
         return res
 
+    def __str__(self):
+        return self.name + "["+str(self.direct)+"]x"+str(self.num_steps)+", p="+str(self.trivial_p)
+
     def print(self):
-        st =self.name + "["+str(self.direct)+"]x"+str(self.num_steps)
+        st = str(self)
         print(st)
 
 
